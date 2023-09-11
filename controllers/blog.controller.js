@@ -26,6 +26,21 @@ ctrl.obtenerPublicaciones = async (req, res) => {
   }
 };
 
+// Se consulta una publicación
+ctrl.obtenerPublicacion = async (req, res) => {
+  try {
+    const publicacion = await Publicaciones.findByPk(req.params.id);
+    if (publicacion) {
+      res.json(publicacion);
+    } else {
+      res.status(404).json({ msg: "Publicación no encontrada" });
+    }
+  } catch (error) {
+    console.error("Error al obtener la publicación:", error);
+    res.status(500).json({ msg: "Error al obtener la publicación" });
+  }
+};
+
 ctrl.actualizarPublicacion = async (req, res) => {
   try {
     const { id } = req.params;

@@ -17,7 +17,7 @@ module.exports = {
         allowNull: false,
       },
       fecha: {
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         allowNull: false,
       },
       url_imagen: {

@@ -1,4 +1,5 @@
 // Se implementa el enrutador de Express
+// const router = require('express').Router();
 
 const { Router } = require("express");
 const router = Router();
@@ -7,6 +8,7 @@ const {
   crearPublicacion,
   eliminarPublicacion,
   obtenerPublicaciones,
+  obtenerPublicacion,
 } = require("../controllers/blog.controller");
 
 // ==================================================
@@ -22,6 +24,11 @@ router.get("/admin", (req, res) => {
   res.render("admin");
 });
 
+// Ruta para devolver la vista admin
+router.get("/admin/:id", (req, res) => {
+  res.render("editar", { id: req.params.id });
+});
+
 // ==================================================
 //         Rutas para CRUD de Publicaciones
 // ==================================================
@@ -31,6 +38,9 @@ router.post("/publicacion", crearPublicacion);
 
 // Obtener todas las publicaciones
 router.get("/publicaciones", obtenerPublicaciones);
+
+// Obtener una publicación
+router.get("/publicacion/:id", obtenerPublicacion);
 
 // Actualizar una publicación
 router.put("/publicacion/:id", actualizarPublicacion);
