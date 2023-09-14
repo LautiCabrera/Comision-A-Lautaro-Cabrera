@@ -69,7 +69,7 @@ const mostrarPublicaciones = (publicaciones, elementoHtml) => {
         </div>
       </div>
       <div class="d-flex justify-content-end">
-        <a href="/admin/${publicacion.id}" class="btn btn-primary">Editar</a>
+        <a href="/publicacion/editar/${publicacion.id}" class="btn btn-primary">Editar</a>
         <a href="#" class="btn btn-danger" onclick="eliminarPublicacion(${publicacion.id})">Eliminar</a>
       </div>
     </div>

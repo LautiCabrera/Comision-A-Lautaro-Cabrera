@@ -15,13 +15,23 @@ const {
 //         Rutas para renderizar vistas
 // ==================================================
 
-// Ruta para devolver la vista home
+// Ruta para mostrar la vista home o principal
 router.get("/", (req, res) => {
   res.render("home");
 });
 
-// Ruta para editar una publicación
-router.get("/admin/:id", async (req, res) => {
+// Ruta para mostrar el formulario de creación de publicaciones
+router.get("/publicacion/crear", async (req, res) => {
+  try {
+    res.render("crear");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al cargar la página de creación.");
+  }
+});
+
+// Ruta para mostrar el formulario de editar publicación
+router.get("/publicacion/editar/:id", async (req, res) => {
   try {
     res.render("editar", { id: req.params.id });
   } catch (error) {
@@ -31,7 +41,7 @@ router.get("/admin/:id", async (req, res) => {
 });
 
 // Ruta para eliminar una publicación
-router.get("/admin/delete/:id", async (req, res) => {
+router.get("/publicacion/delete/:id", async (req, res) => {
   const id = req.params.id;
   try {
     await eliminarPublicacion(id);
