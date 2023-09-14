@@ -1,29 +1,43 @@
 // Referencia al elemento de formulario html
 const formGuardar = document.querySelector("#form-guardar");
-let id; // Declarar la variable id aquí para que esté en el ámbito global
+let id;
 
 const obtenerPublicacion = async (id) => {
-  const response = await fetch(`/publicacion/${id}`);
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(`/publicacion/${id}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error al obtener la publicación:", error);
+    throw error;
+  }
 };
 
+function mostrarModal(message) {
+  // Obtener la modal y el mensaje de la modal
+  const modal = document.getElementById("confirmationModal");
+  const messageElement = document.getElementById("confirmationMessage");
+  messageElement.textContent = message;
+  $(modal).modal("show");
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
-  id = formGuardar.dataset.id; // Asignar el valor de id aquí
+  id = formGuardar.dataset.id;
   const publicacion = await obtenerPublicacion(id);
   const titulo = document.querySelector("#titulo-post");
   const descripcion = document.querySelector("#detalle-post");
   const url_imagen = document.querySelector("#url-img");
   const fecha = document.querySelector("#fecha");
+  const cerrarModalBtn = document.getElementById("close");
 
-  const fechaFormateada = new Date(publicacion.fecha).toLocaleDateString(
-    "en-CA"
-  );
+  cerrarModalBtn.addEventListener("click", function () {
+    window.location.href = "/";
+  });
 
   titulo.value = publicacion.titulo;
   descripcion.value = publicacion.descripcion;
   url_imagen.value = publicacion.url_imagen;
-  fecha.value = fechaFormateada;
+  fecha.value = publicacion.fecha;
 });
 
 formGuardar.addEventListener("submit", async (e) => {
@@ -43,8 +57,12 @@ formGuardar.addEventListener("submit", async (e) => {
     },
     body: JSON.stringify({ titulo, descripcion, url_imagen, fecha }),
   });
-  const data = await response.json();
 
-  alert(data.msg);
-  location.href = "/";
+  if (response.ok) {
+    const confirmationMessage = "Publicación editada correctamente";
+    mostrarModal(confirmationMessage);
+  } else {
+    const errorMessage = "Error al editar la publicación";
+    mostrarModal(errorMessage);
+  }
 });

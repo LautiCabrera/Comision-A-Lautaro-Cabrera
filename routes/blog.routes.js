@@ -15,18 +15,31 @@ const {
 //         Rutas para renderizar vistas
 // ==================================================
 
+// Ruta para devolver la vista home
 router.get("/", (req, res) => {
   res.render("home");
 });
 
-// Ruta para devolver la vista admin
-router.get("/admin", (req, res) => {
-  res.render("admin");
+// Ruta para editar una publicación
+router.get("/admin/:id", async (req, res) => {
+  try {
+    res.render("editar", { id: req.params.id });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al cargar la página de edición.");
+  }
 });
 
-// Ruta para devolver la vista admin
-router.get("/admin/:id", (req, res) => {
-  res.render("editar", { id: req.params.id });
+// Ruta para eliminar una publicación
+router.get("/admin/delete/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    await eliminarPublicacion(id);
+    res.redirect("/");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al eliminar la publicación.");
+  }
 });
 
 // ==================================================

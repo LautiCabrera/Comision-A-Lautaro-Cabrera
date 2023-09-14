@@ -1,5 +1,6 @@
 // Importación de librerías
 const express = require("express");
+const methodOverride = require("method-override");
 const cors = require("cors");
 const morgan = require("morgan");
 const path = require("path");
@@ -31,5 +32,8 @@ app.set("view engine", "ejs");
 
 // Rutas
 app.use(require("./routes/blog.routes"));
+
+// Configura method-override para manejar el spoofing de método
+app.use(methodOverride("_method"));
 
 app.listen(port, () => console.log(`Servidor en http://localhost:${port}`));
