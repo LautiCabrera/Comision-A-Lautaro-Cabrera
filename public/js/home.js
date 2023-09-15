@@ -1,56 +1,9 @@
-const obtenerPublicaciones = async () => {
-  try {
-    const response = await fetch("/publicaciones");
-    if (!response.ok) {
-      throw new Error("Error al obtener las publicaciones");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error al obtener las publicaciones:", error);
-    throw error;
-  }
-};
-
-function eliminarPublicacion(id) {
-  fetch(`/publicacion/${id}`, {
-    method: "DELETE",
-  })
-    .then((response) => {
-      if (response.ok) {
-        const confirmationMessage = "Publicación eliminada correctamente";
-        mostrarModal(confirmationMessage);
-      } else {
-        const errorMessage = "Error al eliminar la publicación";
-        mostrarModal(errorMessage);
-      }
-    })
-    .catch((error) => {
-      console.error("Error al eliminar la publicación:", error);
-    });
-}
-
-function mostrarModal(message) {
-  // Obtener la modal y el mensaje de la modal
-  const modal = document.getElementById("confirmationModal");
-  const messageElement = document.getElementById("confirmationMessage");
-  messageElement.textContent = message;
-  $(modal).modal("show");
-}
-
-function formatearFechaParaServidor(fecha) {
-  const fechaObj = new Date(fecha);
-  const year = fechaObj.getFullYear();
-  const month = String(fechaObj.getMonth() + 1).padStart(2, "0");
-  const day = String(fechaObj.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
+// Función para crear las publicaciones dinámicamente
 const mostrarPublicaciones = (publicaciones, elementoHtml) => {
   let secciones = "";
-
-  // Método para recorrer los registros
+  // Itera las publicaciones asignandole los datos correspondientes a c/u
   publicaciones.forEach((publicacion) => {
+    // Formatea la fecha de las publicaciones para no incluir la hora en ellas
     const fechaFormateada = formatearFechaParaServidor(publicacion.fecha).split(
       "T"
     )[0];
@@ -78,16 +31,16 @@ const mostrarPublicaciones = (publicaciones, elementoHtml) => {
   elementoHtml.innerHTML = secciones;
 };
 
+// Listener que se ejecuta cuando la página completa está cargada
 document.addEventListener("DOMContentLoaded", async () => {
   const publicaciones = await obtenerPublicaciones();
   const cerrarModalBtn = document.getElementById("close");
-
   // Modificar el DOM para mostrar las publicaciones
   const main = document.querySelector("#lista-publicaciones");
-  // Cierra la ventana modal
+  // Cierra la ventana modal al hacerle click en su botón
   cerrarModalBtn.addEventListener("click", function () {
     location.reload();
   });
-
+  // Muestra todas las publicaciones en el home
   mostrarPublicaciones(publicaciones, main);
 });

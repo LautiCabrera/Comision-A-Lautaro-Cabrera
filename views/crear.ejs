@@ -9,14 +9,14 @@
                         <div class="mb-3">
                             <label for="titulo-post">Título de la publicación:</label>
                             <input type="text" id="titulo-post" name="titulo" class="form-control"
-                                placeholder="Título del Post">
+                                placeholder="Título del Post" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="detalle-post">Descripción de publicación:</label>
                             <div class="form-floating">
                                 <textarea id="detalle-post" name="descripcion" class="form-control"
-                                    placeholder="Ingrese detalle" style="height: 100px"></textarea>
+                                    placeholder="Ingrese detalle" style="height: 100px" required></textarea>
                             </div>
                         </div>
 
@@ -28,7 +28,7 @@
                         <div class="mb-3">
                             <label for="url-img">Link imagen de referencia:</label>
                             <input type="text" id="url-img" name="url_imagen" class="form-control"
-                                placeholder="Url imagen">
+                                placeholder="Url imagen" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </form>
@@ -37,6 +37,7 @@
         </div>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/js/main.js"></script>
         <script src="/js/crear.js"></script>
 
         <%- include('partials/footer') %>

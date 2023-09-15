@@ -23,6 +23,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json()); // Para que el servidor pueda comprender datos en formato json
+app.use(express.static(__dirname + "/_public")); // Configura Express para servir archivos estáticos desde la carpeta 'public'
 
 // Archivos estáticos
 app.use(express.static(path.join(__dirname, "public")));
